@@ -1,0 +1,38 @@
+/* App.module.css - CSS module for App component */
+.appWrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* Force aspect ratio for different screens */
+@media (min-aspect-ratio: 16/9) {
+  .appWrapper {
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
+@media (max-aspect-ratio: 16/9) {
+  .appWrapper {
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
+/* Standard responsive breakpoints */
+@media (max-width: 768px) {
+  .appWrapper {
+    position: relative;
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+} 

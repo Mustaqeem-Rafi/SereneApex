@@ -1,0 +1,98 @@
+/* Base styles for the entire application */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Default colors but components can override */
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+/* Minimal scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 4px;
+}
+
+/* Reset focus styles */
+:focus {
+  outline: none;
+}
+
+/* For Firefox */
+@supports (-moz-appearance: none) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f1f1f1;
+  }
+}
+
+/* Remove default button styling */
+button {
+  cursor: pointer;
+  font: inherit;
+}
+
+/* Form element normalization */
+input, button, textarea, select {
+  font: inherit;
+}
+
+/* Dark mode overrides via media query */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #0f172a;
+    color: #f8fafc;
+  }
+  
+  /* For Firefox */
+  @supports (-moz-appearance: none) {
+    * {
+      scrollbar-color: #334155 #0f172a;
+    }
+  }
+  
+  /* For Webkit */
+  ::-webkit-scrollbar-track {
+    background: #0f172a;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #334155;
+  }
+}
+
+/* Add to index.css */
+body {
+  overscroll-behavior: none;
+  background: #020617;
+}
+
+@supports (backdrop-filter: blur(12px)) {
+  .taskCard {
+    backdrop-filter: blur(12px);
+  }
+}

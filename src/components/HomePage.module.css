@@ -1,0 +1,834 @@
+/* src/pages/HomePage/HomePage.module.css */
+:root {
+  /* Light Mode Defaults */
+  --primary: #3B82F6; /* Nebula Blue */
+  --primary-hover: #2563EB;
+  --background: #e8eaf6; /* Light lavender/grey */
+  --surface: #ffffff;
+  --text: #1a1a2e; /* Dark blue/grey text */
+  --text-muted: #5c5c7a;
+  --border: #c5cae9; /* Light lavender border */
+  --error: #ef4444;
+  --success: #22c55e;
+  --warning: #eab308;
+  --radius: 0.5rem;
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Cosmic Colors (Primarily for Dark Mode or accents) */
+  --cosmic-purple: #2A2356;
+  --nebula-blue: #3B82F6;
+  --stardust-yellow: #F59E0B;
+  --space-black: #0F172A;
+  --plasma-pink: #EC4899;
+  --void-black: #020617;
+  --light-text: #E0E0E0; /* Specific light text for dark backgrounds */
+  
+  /* Neomorphic Shadows */
+  --neu-shadow-light: 6px 6px 12px rgba(163, 177, 198, 0.6),
+                      -6px -6px 12px rgba(255, 255, 255, 0.8);
+  --neu-shadow-dark: 8px 8px 16px rgba(10, 10, 30, 0.5),
+                     -8px -8px 16px rgba(255, 255, 255, 0.05);
+  /* Default shadow is light */
+  --neu-shadow: var(--neu-shadow-light);
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.appContainer {
+  width: 100vw;
+  height: 100vh;
+  background: var(--background); /* Use variable */
+  font-family: 'Poppins', sans-serif;
+  color: var(--text); /* Use variable */
+  transition: var(--transition);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Dark Mode Overrides */
+.appContainer.dark {
+  --background: radial-gradient(circle at 50% 0%, var(--cosmic-purple) 0%, var(--void-black) 100%);
+  --surface: var(--space-black); /* Use dark surface */
+  --text: var(--light-text); /* Use light text */
+  --text-muted: rgba(224, 224, 224, 0.6); /* Lighter muted text */
+  --border: rgba(255, 255, 255, 0.1); /* Light border on dark */
+  --neu-shadow: var(--neu-shadow-dark); /* Switch to dark shadow */
+  --primary: var(--nebula-blue); /* Keep primary blue */
+  --primary-hover: #2563EB;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  background: var(--surface); /* Use surface variable */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Keep subtle shadow */
+  border-bottom: 1px solid var(--border);
+  height: 60px;
+  z-index: 10;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary); /* Use primary color */
+  margin: 0;
+}
+
+.topBarControls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.themeToggle {
+  background: none;
+  border: none;
+  color: var(--text); /* Use text color */
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 50%;
+}
+
+.themeToggle:hover {
+  background-color: rgba(0, 0, 0, 0.05); /* Subtle hover for both themes */
+}
+.appContainer.dark .themeToggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.icon {
+  font-size: 1.25rem;
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  height: calc(100% - 60px);
+}
+
+.leftPanel, .rightPanel {
+  height: 100%;
+  padding: 1.5rem;
+  overflow-y: auto;
+  background: var(--surface); /* Use surface */
+  backdrop-filter: none; /* Remove blur for light mode */
+}
+
+.appContainer.dark .leftPanel,
+.appContainer.dark .rightPanel {
+  background: rgba(15, 23, 42, 0.7); /* Restore dark bg with transparency */
+  backdrop-filter: blur(8px); /* Restore blur for dark mode */
+}
+
+.leftPanel {
+  border-right: 1px solid var(--border); /* Use border variable */
+}
+
+.divider {
+  width: 6px;
+  background: var(--border); /* Use border variable */
+  cursor: col-resize;
+  transition: var(--transition);
+  position: relative;
+  z-index: 10;
+}
+
+.divider:hover, .divider.dragging {
+  background: var(--primary); /* Use primary color */
+  width: 6px;
+}
+
+.panelHeader {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+  gap: 0.75rem;
+}
+
+/* Styles for Clock and Date */
+.dateTimeContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.75rem; /* Add some space below the clock/date */
+  padding-bottom: 0.75rem; /* Consistent padding */
+  border-bottom: 1px solid var(--border); /* Separator line */
+}
+
+.clock {
+  font-size: 2rem; /* Make clock time larger */
+  font-weight: 600;
+  color: var(--primary);
+  letter-spacing: 0.5px;
+}
+
+.date {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--primary); /* Use primary color */
+}
+
+.searchContainer {
+  position: relative;
+  width: 100%;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  background: var(--background); /* Use background for slight inset */
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: var(--transition);
+  font-size: 0.875rem;
+  box-sizing: border-box;
+  color: var(--text); /* Use text color */
+}
+
+.appContainer.dark .searchInput {
+  background: rgba(15, 23, 42, 0.5); /* Dark search input */
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent);
+}
+
+.searchIcon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted); /* Use muted text color */
+  opacity: 0.6;
+}
+
+/* Update Add Task Button to use theme colors */
+.addButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--primary);
+  color: var(--surface); /* Text color contrasts with primary */
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.appContainer.dark .addButton {
+  color: white;
+}
+
+.addButton:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.buttonIcon {
+  font-size: 1rem;
+}
+
+.taskList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Task Cards use Neomorphic shadow based on theme */
+.taskCard {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--surface); /* Use surface */
+  border-radius: 16px;
+  box-shadow: var(--neu-shadow); /* Use theme shadow */
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.taskCard:hover {
+  transform: translateY(-2px);
+  /* Slightly enhance shadow on hover */
+  box-shadow: 10px 10px 20px rgba(163, 177, 198, 0.6),
+              -10px -10px 20px rgba(255, 255, 255, 0.8);
+}
+.appContainer.dark .taskCard:hover {
+  box-shadow: 10px 10px 20px rgba(10, 10, 30, 0.5),
+              -10px -10px 20px rgba(255, 255, 255, 0.05);
+}
+
+/* Remove the ::before gradient overlay for light mode clarity */
+.taskCard::before {
+  content: none;
+}
+.appContainer.dark .taskCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0.05) 0%,
+    rgba(0,0,0,0.2) 100%
+  );
+  z-index: 1;
+}
+
+/* Priority Colors - Keep semantic colors, adjust background gradient */
+.priorityhigh {
+  border-left: 4px solid var(--plasma-pink);
+}
+.appContainer.dark .priorityhigh {
+   background: linear-gradient(to right, rgba(236,72,153,0.1) 0%, transparent 30%);
+}
+
+.prioritymedium {
+  border-left: 4px solid var(--nebula-blue);
+}
+.appContainer.dark .prioritymedium {
+   background: linear-gradient(to right, rgba(59,130,246,0.1) 0%, transparent 30%);
+}
+
+.prioritylow {
+  border-left: 4px solid var(--stardust-yellow);
+}
+.appContainer.dark .prioritylow {
+   background: linear-gradient(to right, rgba(245,158,11,0.1) 0%, transparent 30%);
+}
+
+.completed {
+  opacity: 0.6;
+  background: var(--background); /* Give completed tasks a subdued bg */
+}
+.appContainer.dark .completed {
+  background: var(--surface); /* Use surface color in dark mode */
+  opacity: 0.5;
+}
+
+.completed h3 {
+  text-decoration: line-through;
+}
+
+.dragHandle {
+  cursor: grab;
+  padding: 0 0.5rem;
+  color: var(--text-muted);
+  opacity: 0.6;
+  transition: var(--transition);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.dragHandle:hover {
+  opacity: 1;
+}
+
+.taskContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.taskContent h3 {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0 0 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text); /* Ensure text color matches theme */
+}
+
+.taskMeta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.75rem;
+  color: var(--text-muted); /* Use muted text color */
+}
+
+.taskActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.actionButton {
+  background: none;
+  border: none;
+  color: var(--text-muted); /* Muted color */
+  opacity: 0.6;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transform: translateY(10px);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+.appContainer.dark .actionButton {
+  color: var(--light-text); /* Lighter buttons in dark mode */
+  opacity: 0.5;
+}
+
+.taskCard:hover .taskActions button {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.actionButton:hover {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.appContainer.dark .actionButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.completeButton:hover {
+  color: var(--success);
+}
+
+.deleteButton:hover {
+  color: var(--error);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  opacity: 0.7;
+}
+
+.illustration {
+  margin-bottom: 1rem;
+}
+
+.emptyText {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* Timeline uses background */
+.timeline {
+  /* This container primarily holds the currentTimeIndicator */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1.5rem;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.currentTimeIndicator {
+  position: absolute;
+  left: 1.5rem; /* Align with padding */
+  right: 1.5rem;
+  height: 2px;
+  background: var(--error);
+  z-index: 2;
+  box-shadow: 0 0 8px var(--error); /* Add a glow */
+}
+
+.currentTimeIndicator::after {
+  content: 'Now';
+  position: absolute;
+  right: 0;
+  top: -1.4rem; /* Adjust position */
+  font-size: 0.7rem; /* Slightly smaller */
+  color: var(--error);
+  font-weight: 500;
+  background-color: var(--surface);
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+}
+
+.appContainer.dark .currentTimeIndicator::after {
+   background-color: var(--space-black);
+}
+
+/* NEW VERTICAL TIMELINE STYLES */
+.verticalTimelineContainer {
+  position: relative;
+  height: calc(100% - 5rem);
+  padding: 1.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.timelineItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  position: relative;
+  min-height: 100px;
+}
+
+.timelineMarker {
+  width: 80px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--primary);
+  background-color: var(--surface);
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  text-align: center;
+  box-shadow: var(--neu-shadow);
+  border: 1px solid var(--border);
+  position: relative;
+  z-index: 2;
+}
+
+.appContainer.dark .timelineMarker {
+  background-color: var(--space-black);
+  color: var(--light-text);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.timelineConnector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.connectorDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--surface), 0 0 0 6px rgba(59, 130, 246, 0.3);
+  margin-bottom: 0.5rem;
+}
+
+.appContainer.dark .connectorDot {
+  box-shadow: 0 0 0 4px var(--space-black), 0 0 0 6px rgba(59, 130, 246, 0.3);
+}
+
+.connectorLine {
+  width: 2px;
+  flex-grow: 1;
+  min-height: 50px;
+  background: linear-gradient(to bottom, var(--primary), rgba(59, 130, 246, 0.2));
+}
+
+.timelineTaskCard {
+  flex: 1;
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: var(--neu-shadow);
+  border: 1px solid var(--border);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.appContainer.dark .timelineTaskCard {
+  background: var(--space-black);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--light-text);
+}
+
+.timelineTaskCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+}
+
+.timelineTaskCard h4 {
+  font-size: 0.9rem;
+  margin: 0 0 0.5rem;
+  color: var(--text);
+}
+
+.appContainer.dark .timelineTaskCard h4 {
+  color: var(--light-text);
+}
+
+.timelineTaskCard span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: block;
+}
+
+/* Priority styles for timeline cards */
+.timelineTaskCard.priorityhigh {
+  border-left: 4px solid var(--plasma-pink);
+}
+
+.timelineTaskCard.prioritymedium {
+  border-left: 4px solid var(--nebula-blue);
+}
+
+.timelineTaskCard.prioritylow {
+  border-left: 4px solid var(--stardust-yellow);
+}
+
+.appContainer.dark .timelineTaskCard.priorityhigh::after,
+.appContainer.dark .timelineTaskCard.prioritymedium::after,
+.appContainer.dark .timelineTaskCard.prioritylow::after {
+  content: ''; 
+  position: absolute; 
+  inset: -1px; 
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.appContainer.dark .timelineTaskCard.priorityhigh::after {
+  border: 1px solid var(--plasma-pink);
+  box-shadow: inset 0 0 10px var(--plasma-pink);
+}
+
+.appContainer.dark .timelineTaskCard.prioritymedium::after {
+  border: 1px solid var(--nebula-blue);
+  box-shadow: inset 0 0 10px var(--nebula-blue);
+}
+
+.appContainer.dark .timelineTaskCard.prioritylow::after {
+  border: 1px solid var(--stardust-yellow);
+  box-shadow: inset 0 0 10px var(--stardust-yellow);
+}
+
+/* Empty timeline state */
+.verticalTimelineContainer .emptyText {
+  text-align: center;
+  color: var(--text-muted);
+  margin-top: 4rem;
+}
+
+/* Modal Styles */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  /* Adjust background for light/dark */
+  background-color: rgba(30, 30, 50, 0.6); 
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+.appContainer.dark .modalOverlay {
+  background-color: rgba(10, 10, 30, 0.8);
+}
+
+.modalContent {
+  background: var(--surface);
+  padding: 2rem;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border);
+}
+.appContainer.dark .modalContent {
+  background: var(--space-black);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modalContent h2 {
+  margin-top: 0;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.formGroup input,
+.formGroup select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--background); /* Use background */
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 0.875rem;
+  transition: var(--transition);
+  box-sizing: border-box;
+}
+.appContainer.dark .formGroup input,
+.appContainer.dark .formGroup select {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--light-text);
+}
+
+.formGroup input:focus,
+.formGroup select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent);
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.cancelButton,
+.saveButton {
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 500;
+}
+
+.cancelButton {
+  background: var(--background); /* Use background */
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.appContainer.dark .cancelButton {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--light-text);
+  border: none;
+}
+
+.cancelButton:hover {
+  background: var(--border);
+}
+.appContainer.dark .cancelButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.saveButton {
+  background: var(--primary);
+  color: var(--surface); /* Contrast with primary */
+}
+.appContainer.dark .saveButton {
+  color: white;
+}
+
+.saveButton:hover {
+  background: var(--primary-hover);
+}
+
+.saveButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Ensure 16:9 aspect ratio for desktop */
+@media (min-aspect-ratio: 16/9) {
+  .appContainer {
+    height: 100vh;
+  }
+  
+  .mainContent {
+    height: calc(100% - 60px);
+  }
+}
+
+@media (max-aspect-ratio: 16/9) {
+  .appContainer {
+    height: 100vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .mainContent {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .leftPanel, .rightPanel {
+    width: 100% !important;
+    height: auto;
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+  
+  .divider {
+    height: 8px;
+    width: 100%;
+    cursor: row-resize;
+  }
+  
+  .addTaskForm {
+    flex-direction: column;
+  }
+  
+  .verticalTimelineContainer {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .timelineMarker {
+    width: 60px;
+    font-size: 0.7rem;
+  }
+  
+  .modalContent {
+    width: 95%;
+    padding: 1.5rem;
+  }
+}
+
+.taskCard.dragOverlay {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  cursor: grabbing;
+}
