@@ -149,6 +149,7 @@ const SortableTask = ({ task, onToggleComplete, onDelete, isOverlay = false }) =
       <div className={styles.taskActions}>
         <button 
           onClick={(e) => { e.stopPropagation(); onToggleComplete(task.id); }}
+          onPointerDown={(e) => e.stopPropagation()}
           className={`${styles.actionButton} ${styles.completeButton}`}
           aria-label={task.completed ? "Mark as incomplete" : "Mark as complete"}
         >
@@ -156,6 +157,7 @@ const SortableTask = ({ task, onToggleComplete, onDelete, isOverlay = false }) =
         </button>
         <button 
           onClick={(e) => { e.stopPropagation(); onDelete(task.id); }}
+          onPointerDown={(e) => e.stopPropagation()}
           className={`${styles.actionButton} ${styles.deleteButton}`}
           aria-label="Delete task"
         >

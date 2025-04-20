@@ -308,6 +308,7 @@ html, body {
     rgba(0,0,0,0.2) 100%
   );
   z-index: 1;
+  pointer-events: none; /* Make overlay non-interactive */
 }
 
 /* Priority Colors - Keep semantic colors, adjust background gradient */
